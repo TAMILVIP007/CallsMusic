@@ -39,10 +39,7 @@ def is_empty(chat_id: Union[str, int]) -> Union[bool, None]:
     if isinstance(chat_id, int):
         chat_id = str(chat_id)
 
-    if chat_id in queues:
-        return queues[chat_id].empty()
-    else:
-        return True
+    return queues[chat_id].empty() if chat_id in queues else True
 
 
 def task_done(chat_id: Union[str, int]) -> None:
@@ -60,10 +57,9 @@ def clear(chat_id: Union[str, int]) -> None:
     if isinstance(chat_id, int):
         chat_id = str(chat_id)
 
-    if chat_id in queues:
-        if queues[chat_id].empty():
-            raise QueueEmpty("The queue is empty.")
-        else:
-            queues[chat_id]._queue = []
-    else:
+    if chat_id not in queues:
         raise QueueEmpty("The queue is empty.")
+    if queues[chat_id].empty():
+        raise QueueEmpty("The queue is empty.")
+    else:
+        queues[chat_id]._queue = []

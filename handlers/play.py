@@ -49,7 +49,7 @@ async def play(client: Client, message_: Message):
                         offset, length = entity.offset, entity.length
                         break
 
-        if offset == None:
+        if offset is None:
             await res.edit_text("❕ You did not give me anything to play.")
             return
 
